@@ -1,7 +1,8 @@
 # Reconstruction working output
 out/
 
-# DUSt3R repo cloned at runtime by the notebook (not part of this repo)
+# Reconstruction engines cloned at runtime by the notebook (not part of this repo)
+mast3r/
 dust3r/
 
 # Python
