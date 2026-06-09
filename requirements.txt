@@ -1,0 +1,6 @@
+# Dependencies for the v3d package (the CPU/IO parts).
+# DUSt3R brings its own heavy deps (torch, etc.) via dust3r/requirements.txt,
+# which the Colab notebook installs separately. Torch is preinstalled on Colab.
+opencv-python>=4.5
+numpy>=1.21
+plotly>=5.0

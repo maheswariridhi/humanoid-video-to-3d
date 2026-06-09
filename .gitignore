@@ -1,0 +1,13 @@
+# Reconstruction working output
+out/
+
+# DUSt3R repo cloned at runtime by the notebook (not part of this repo)
+dust3r/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Keep example outputs (committed on purpose) — do NOT ignore examples/
