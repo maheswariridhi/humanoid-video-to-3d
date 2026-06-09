@@ -127,10 +127,10 @@ git init
 git add .
 git commit -m "video-to-3d: DUSt3R (Colab) + COLMAP baseline"
 git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/video-to-3d.git
+git remote add origin https://github.com/maheswariridhi/video-to-3d.git
 git push -u origin main
 ```
 
 Then set `REPO_URL` in `reconstruct.ipynb` to that remote, and (optionally) add an
-[Open in Colab](https://colab.research.google.com/github/YOUR_USERNAME/video-to-3d/blob/main/reconstruct.ipynb)
+[Open in Colab](https://colab.research.google.com/github/maheswariridhi/video-to-3d/blob/main/reconstruct.ipynb)
 badge to the top of this README.
