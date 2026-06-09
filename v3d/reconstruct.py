@@ -59,8 +59,37 @@ def _import_dust3r():
             global_aligner, GlobalAlignerMode)
 
 
+def clean_cloud(points, colors, keep_percentile=99.0, max_points=500_000, seed=0):
+    """Drop non-finite points + far-flung flyers, and cap the cloud size.
+
+    DUSt3R fuses a point per confident pixel, which leaves some NaN/Inf entries
+    and outliers floating far from the scene. Cheap heuristic trim: finite check
+    + radial-percentile cut from the median centre + a random cap. Returns
+    (points, colors).
+    """
+    points = np.asarray(points, dtype=np.float32)
+    colors = np.asarray(colors, dtype=np.uint8)
+
+    valid = np.isfinite(points).all(axis=1)
+    points, colors = points[valid], colors[valid]
+    if len(points) == 0:
+        raise ValueError("No valid 3D points after filtering.")
+
+    center = np.median(points, axis=0)
+    radius = np.linalg.norm(points - center, axis=1)
+    keep = radius <= np.percentile(radius, keep_percentile)
+    points, colors = points[keep], colors[keep]
+
+    if len(points) > max_points:
+        rng = np.random.default_rng(seed)
+        idx = rng.choice(len(points), max_points, replace=False)
+        points, colors = points[idx], colors[idx]
+
+    return points, colors
+
+
 def run(images_dir, model_name=DEFAULT_MODEL, device="cuda",
-        image_size=512, niter=300):
+        image_size=512, niter=300, min_conf=3.0):
     """Reconstruct a coloured point cloud from the images in `images_dir`.
 
     Args:
@@ -100,17 +129,22 @@ def run(images_dir, model_name=DEFAULT_MODEL, device="cuda",
     imgs = scene.imgs               # list of (H, W, 3) float in [0, 1]
     pts3d = scene.get_pts3d()       # list of (H, W, 3) tensors
     masks = scene.get_masks()       # list of (H, W) bool tensors
+    confs = scene.get_conf()        # list of (H, W) confidence tensors
 
     all_pts, all_cols, frames = [], [], []
-    for path, img, pts, mask in zip(image_paths, imgs, pts3d, masks):
+    for path, img, pts, mask, conf in zip(image_paths, imgs, pts3d, masks, confs):
         pts_np = pts.detach().cpu().numpy()
-        mask_np = mask.detach().cpu().numpy()
+        conf_np = conf.detach().cpu().numpy()
+        # Keep only confident pixels — this is what drops the low-confidence "haze".
+        mask_np = mask.detach().cpu().numpy() & (conf_np > min_conf)
         rgb_np = (np.asarray(img) * 255).astype(np.uint8)
         all_pts.append(pts_np[mask_np])
         all_cols.append(rgb_np[mask_np])
         frames.append(FrameResult(image_path=path, rgb=rgb_np, pts3d=pts_np, mask=mask_np))
 
-    points = np.concatenate(all_pts, axis=0)
-    colors = np.concatenate(all_cols, axis=0)
-    print(f"Reconstructed {len(points):,} points from {len(image_paths)} frames.")
+    raw_points = np.concatenate(all_pts, axis=0)
+    raw_colors = np.concatenate(all_cols, axis=0)
+    points, colors = clean_cloud(raw_points, raw_colors)
+    print(f"Reconstructed {len(points):,} points "
+          f"(from {len(raw_points):,} raw) across {len(image_paths)} frames.")
     return Reconstruction(points=points, colors=colors, frames=frames)
