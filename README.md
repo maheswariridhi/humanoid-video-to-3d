@@ -2,12 +2,13 @@
 
 Turn a short phone video of a room into a **3D point cloud** — using
 [DUSt3R](https://github.com/naver/dust3r), a learned, feed-forward 3D model.
-No COLMAP, no camera calibration, and **no GPU on your own machine** (it runs on
-a free Colab T4).
+No COLMAP and no provided camera calibration, and **no GPU on your own machine**
+(it runs on a free Colab T4).
 
 DUSt3R predicts a 3D point for every pixel and recovers the camera poses in one
-pass, so it stays robust on casual phone video — including the low-texture,
-low-parallax shots where classical Structure-from-Motion tends to fail outright.
+pass, so it needs no provided calibration and no local COLMAP install. It can be
+more forgiving than classical SfM in weak-feature cases, but reconstruction
+quality still depends on parallax, lighting, texture, and motion blur.
 
 ```
 upload video → extract frames → blur filter → subsample → DUSt3R → view inline → save .ply
@@ -23,7 +24,15 @@ upload video → extract frames → blur filter → subsample → DUSt3R → vie
    `https://colab.research.google.com/github/maheswariridhi/video-to-3d/blob/main/reconstruct.ipynb`
 3. **Runtime → Change runtime type → T4 GPU → Save**
 4. **Runtime → Run all**, then upload a short clip when prompted.
-5. View the cloud inline and download `point_cloud.ply`.
+5. View the cloud inline; the last cell downloads a single
+   `video_to_3d_outputs.zip` containing:
+
+   ```
+   point_cloud.ply     # the reconstructed cloud
+   preview.html        # standalone interactive viewer (opens in any browser)
+   report.json         # frames used, point count, output paths
+   images/             # the frames that were actually used
+   ```
 
 **Capture tip:** a slow 10–30 s sweep of a small room or a desk, walking
 *around* objects (not just rotating on the spot), with even lighting and no
@@ -56,9 +65,8 @@ the logic lives in readable, reusable modules rather than in notebook cells.
 - [x] CPU frame prep: extraction + blur filter + subsampling
 - [x] DUSt3R reconstruction on Colab GPU → coloured point cloud
 - [x] Inline 3D viewer + PLY export
-- [ ] **Semantic labels in 3D** — Grounded-SAM-2 per frame, lifted onto the
-      DUSt3R pointmaps and majority-voted per 3D point, so labels stay aligned
-      with the geometry (`v3d/semantics.py` has the interface + plan)
+- [ ] Optional: semantic labels in 3D — Grounded-SAM-2 masks lifted onto the
+      DUSt3R pointmaps (`v3d/semantics.py` sketches the interface)
 - [ ] Optional: 3D Gaussian Splatting on the recovered poses for a
       photorealistic, explorable result
 

@@ -40,6 +40,36 @@ class Reconstruction:
     frames: list = field(default_factory=list)  # list[FrameResult]
 
 
+def clean_cloud(points, colors, keep_percentile=99.5, max_points=500_000, seed=0):
+    """Tidy a raw fused cloud: drop non-finite points + far-flung flyers, and cap size.
+
+    DUSt3R fuses a point per confident pixel, which leaves some NaN/Inf entries
+    and a few outliers floating far from the scene. This is a cheap heuristic
+    trim (finite check + radial percentile from the median centre + a random cap)
+    — not full statistical denoising, but enough to make the output clean and fast
+    to view. Returns (points, colors).
+    """
+    points = np.asarray(points, dtype=np.float32)
+    colors = np.asarray(colors, dtype=np.uint8)
+
+    valid = np.isfinite(points).all(axis=1)
+    points, colors = points[valid], colors[valid]
+    if len(points) == 0:
+        raise ValueError("No valid 3D points after filtering.")
+
+    center = np.median(points, axis=0)
+    radius = np.linalg.norm(points - center, axis=1)
+    keep = radius <= np.percentile(radius, keep_percentile)
+    points, colors = points[keep], colors[keep]
+
+    if len(points) > max_points:
+        rng = np.random.default_rng(seed)
+        idx = rng.choice(len(points), max_points, replace=False)
+        points, colors = points[idx], colors[idx]
+
+    return points, colors
+
+
 def _import_dust3r():
     try:
         from dust3r.inference import inference
@@ -110,7 +140,9 @@ def run(images_dir, model_name=DEFAULT_MODEL, device="cuda",
         all_cols.append(rgb_np[mask_np])
         frames.append(FrameResult(image_path=path, rgb=rgb_np, pts3d=pts_np, mask=mask_np))
 
-    points = np.concatenate(all_pts, axis=0)
-    colors = np.concatenate(all_cols, axis=0)
-    print(f"Reconstructed {len(points):,} points from {len(image_paths)} frames.")
+    raw_points = np.concatenate(all_pts, axis=0)
+    raw_colors = np.concatenate(all_cols, axis=0)
+    points, colors = clean_cloud(raw_points, raw_colors)
+    print(f"Reconstructed {len(points):,} points "
+          f"(from {len(raw_points):,} raw) across {len(image_paths)} frames.")
     return Reconstruction(points=points, colors=colors, frames=frames)

@@ -48,6 +48,8 @@ def show(points, colors=None, max_points=80_000, point_size=1.5):
     """Interactive 3D scatter inside the notebook (plotly).
 
     Randomly subsamples to `max_points` so the browser stays responsive.
+    Returns the plotly Figure, so callers can also do ``fig.write_html(...)``
+    to save a standalone viewer that opens without rerunning anything.
     """
     import plotly.graph_objects as go
 
@@ -70,3 +72,4 @@ def show(points, colors=None, max_points=80_000, point_size=1.5):
     fig.update_layout(scene=dict(aspectmode="data"),
                       margin=dict(l=0, r=0, t=0, b=0))
     fig.show()
+    return fig
