@@ -9,8 +9,7 @@ No COLMAP and no provided camera calibration, and **no GPU on your own machine**
 MASt3R predicts a 3D point for every pixel and recovers the camera poses with no
 provided calibration and no local COLMAP install. It can be more forgiving than
 classical SfM in weak-feature cases, but reconstruction quality still depends on
-parallax, lighting, texture, and motion blur. (DUSt3R is available as a fallback
-via `backend="dust3r"`.)
+parallax, lighting, texture, and motion blur.
 
 ```
 upload video → extract frames → blur filter → subsample → MASt3R → view inline → save .ply
@@ -82,7 +81,7 @@ video-to-3d/
 ├── reconstruct.ipynb        # ← the Colab notebook you run (6 steps, top to bottom)
 ├── v3d/                     # the real code, imported by the notebook
 │   ├── frames.py            # extract frames + blur filter + subsample   (CPU)
-│   ├── reconstruct.py       # MASt3R/DUSt3R → coloured point cloud         (GPU)
+│   ├── reconstruct.py       # MASt3R → coloured point cloud                (GPU)
 │   ├── semantics.py         # 2D→3D semantic labels (SegFormer)            (GPU)
 │   └── pointcloud.py        # binary-PLY writer + inline 3D viewer        (CPU)
 ├── examples/                # sample input + committed example outputs
@@ -98,7 +97,7 @@ the logic lives in readable, reusable modules rather than in notebook cells.
 ## Roadmap
 
 - [x] CPU frame prep: extraction + blur filter + subsampling
-- [x] MASt3R reconstruction on Colab GPU → coloured point cloud (DUSt3R fallback)
+- [x] MASt3R reconstruction on Colab GPU → coloured point cloud
 - [x] Inline 3D viewer + PLY export
 - [x] Semantic labels in 3D — SegFormer/ADE20K masks lifted onto the MASt3R
       pointmaps and voxel-majority-voted for multi-view consistency
@@ -109,12 +108,11 @@ the logic lives in readable, reusable modules rather than in notebook cells.
 
 ## Design choices
 
-- **Why MASt3R/DUSt3R instead of classical SfM.** A learned feed-forward model
-  trades a little metric precision for a lot of robustness on casual phone video,
-  removes the COLMAP install, produces a dense coloured cloud directly, and avoids
-  the "all-or-nothing" failure mode of incremental SfM on textureless scenes.
-  MASt3R is the default (more accurate matching + metric scale); DUSt3R is kept as
-  a one-arg fallback.
+- **Why MASt3R instead of classical SfM.** A learned feed-forward model trades a
+  little metric precision for a lot of robustness on casual phone video, removes
+  the COLMAP install, produces a dense coloured cloud directly (with accurate
+  matching + metric scale), and avoids the "all-or-nothing" failure mode of
+  incremental SfM on textureless scenes.
 - **Frame prep matters more than the engine.** Sampling at a fixed fps, dropping
   the blurriest frames (relative to the median, with a hard floor), and thinning
   to a few dozen well-spread views is cheap and high-impact — it's also what
@@ -131,7 +129,7 @@ the logic lives in readable, reusable modules rather than in notebook cells.
 ```bash
 cd video-to-3d
 git add .
-git commit -m "video-to-3d: DUSt3R reconstruction pipeline"
+git commit -m "video-to-3d: MASt3R reconstruction pipeline"
 git push
 ```
 
