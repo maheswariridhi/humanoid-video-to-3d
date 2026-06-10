@@ -47,11 +47,3 @@ https://github.com/user-attachments/assets/993dda47-cb36-4e2a-ba56-5998d1e649f6
 - Output is a binary PLY (opens in MeshLab, Blender, CloudCompare) + standalone interactive `preview.html`
 
 ---
-
-## Design choices
-
-**MASt3R over classical SfM** — COLMAP fails silently when features are sparse; MASt3R predicts depth and poses from learned priors so it works on textureless scenes and gives metric scale without calibration.
-
-**Filter before reconstruct** — blurry frames produce low-confidence pointmaps that hurt the global alignment, not just add noise. Dropping them first improves quality, not just speed.
-
-**Semantics aligned by construction** — each pixel already has a 3D point from MASt3R, so 2D labels are inherited directly rather than projected back, avoiding pose errors and resampling artifacts. Voxel majority vote then resolves cross-frame disagreements.
