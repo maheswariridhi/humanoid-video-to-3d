@@ -116,16 +116,15 @@ def run(images_dir, device="cuda", image_size=512, min_conf=DEFAULT_MIN_CONF):
     pairs = make_pairs(images, scene_graph=scene_graph, prefilter=None, symmetrize=True)
     print(f"MASt3R sparse global alignment on {len(pairs)} pairs ({scene_graph} graph)...")
 
-    cache_dir = tempfile.mkdtemp(prefix="mast3r_cache_")
-    scene = sparse_global_alignment(
-        image_paths, pairs, cache_dir, model,
-        lr1=0.07, niter1=500, lr2=0.014, niter2=200,
-        device=device, opt_depth=True, shared_intrinsics=False,
-        matching_conf_thr=5.0,
-    )
-
-    pts3d, _, confs = scene.get_dense_pts3d(clean_depth=True)
-    imgs = scene.imgs
+    with tempfile.TemporaryDirectory(prefix="mast3r_cache_") as cache_dir:
+        scene = sparse_global_alignment(
+            image_paths, pairs, cache_dir, model,
+            lr1=0.07, niter1=500, lr2=0.014, niter2=200,
+            device=device, opt_depth=True, shared_intrinsics=False,
+            matching_conf_thr=5.0,
+        )
+        pts3d, _, confs = scene.get_dense_pts3d(clean_depth=True)
+        imgs = scene.imgs
 
     all_pts, all_cols, frames = [], [], []
     for path, img, pts, conf in zip(image_paths, imgs, pts3d, confs):
