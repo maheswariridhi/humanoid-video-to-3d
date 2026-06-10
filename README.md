@@ -11,8 +11,11 @@ video → frames → blur filter → MASt3R → 3D point cloud → semantic labe
 ## Example
 
 ### Input
-<!-- drag your .mov into the GitHub README editor to embed it -->
-https://your-github-asset-url/input.mov
+
+
+https://github.com/user-attachments/assets/993dda47-cb36-4e2a-ba56-5998d1e649f6
+
+
 
 ### RGB reconstruction
 <!-- screenshot of preview.html in browser -->
