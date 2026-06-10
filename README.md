@@ -22,8 +22,8 @@ https://github.com/user-attachments/assets/993dda47-cb36-4e2a-ba56-5998d1e649f6
 
 
 ### Semantic labels
-<!-- screenshot of the semantic-coloured cloud -->
-![Semantic labels](https://your-github-asset-url/semantic_pointcloud.png)
+<img width="657" height="237" alt="Screenshot (2022)" src="https://github.com/user-attachments/assets/2b8bc3d9-1cf1-4e74-9c77-5baf0063148c" />
+
 
 ---
 
