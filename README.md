@@ -41,7 +41,7 @@ https://github.com/user-attachments/assets/993dda47-cb36-4e2a-ba56-5998d1e649f6
 
 ## Approach
 
-- **MASt3R** predicts a 3D point per pixel and recovers camera poses — no COLMAP, no calibration needed
+- **MASt3R** predicts a 3D point per pixel and recovers camera poses 
 - Frames are extracted at 2 fps, blurry ones dropped, then thinned to 25 to fit GPU memory
 - Semantic labels use **SegFormer (ADE20K)** on each frame, lifted to 3D via the MASt3R pointmaps, then voxel-majority-voted across frames for multi-view consistency
 - Output is a binary PLY (opens in MeshLab, Blender, CloudCompare) + standalone interactive `preview.html`
