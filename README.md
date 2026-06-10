@@ -1,9 +1,9 @@
 # humanoid-video-to-3d
 
-Turn a short phone video into a **3D point cloud**, with optional semantic labels.
+Turn a short video into a **3D construction**, with semantic labels.
 
 ```
-video → frames → blur filter → MASt3R → 3D point cloud → semantic labels (optional)
+video → frames → blur filter → MASt3R → 3D point cloud → semantic labels 
 ```
 
 ---
@@ -18,12 +18,12 @@ https://github.com/user-attachments/assets/993dda47-cb36-4e2a-ba56-5998d1e649f6
 
 
 ### RGB reconstruction
-<!-- screenshot of preview.html in browser -->
-![RGB point cloud](https://your-github-asset-url/rgb_pointcloud.png)
+<img width="755" height="796" alt="Screenshot (2018)" src="https://github.com/user-attachments/assets/2b9c4fd4-82ba-47be-ade2-63dd48f5fcd0" />
+
 
 ### Semantic labels
-<!-- screenshot of the semantic-coloured cloud -->
-![Semantic labels](https://your-github-asset-url/semantic_pointcloud.png)
+<img width="657" height="237" alt="Screenshot (2022)" src="https://github.com/user-attachments/assets/2b8bc3d9-1cf1-4e74-9c77-5baf0063148c" />
+
 
 ---
 
