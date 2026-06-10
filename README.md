@@ -1,4 +1,4 @@
-# video-to-3d
+# humanoid-video-to-3d
 
 Turn a short phone video into a **3D point cloud**, with optional semantic labels.
 
