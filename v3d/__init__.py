@@ -2,7 +2,7 @@
 
 Submodules (import the one you need so heavy deps load lazily):
     frames      - extract + deblur video frames                (CPU; ffmpeg + OpenCV)
-    reconstruct - DUSt3R geometry -> coloured point cloud       (GPU; torch + dust3r)
+    reconstruct - MASt3R geometry -> coloured point cloud       (GPU; torch + mast3r)
     semantics   - 2D->3D semantic labels (optional)             (GPU) [roadmap]
     pointcloud  - PLY I/O + inline 3D viewer                    (CPU; numpy + plotly)
 """

@@ -11,7 +11,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-# COLMAP/DUSt3R need a handful of overlapping views to triangulate anything.
+# MASt3R needs a handful of overlapping views to triangulate anything.
 MIN_FRAMES = 10
 
 
@@ -87,7 +87,7 @@ def filter_blurry(images_dir, min_frames=MIN_FRAMES):
 def subsample(images_dir, max_frames=20):
     """Uniformly thin the frames to at most `max_frames`.
 
-    DUSt3R/VGGT process frames jointly, so GPU memory scales with frame count.
+    MASt3R processes frames jointly, so GPU memory scales with frame count.
     A few dozen well-spread frames reconstruct a small room fine; this keeps us
     inside a free Colab T4's budget. Returns the frames that remain.
     """
