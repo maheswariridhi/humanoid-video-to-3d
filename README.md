@@ -18,6 +18,22 @@ upload video → extract frames → blur filter → subsample → MASt3R → vie
 
 ---
 
+## Example
+
+### Input video
+<!-- Drag and drop your silent .mov into the GitHub README editor to get a URL, then replace this line -->
+https://your-github-asset-url/input.mov
+
+### Output — RGB point cloud
+<!-- Screenshot or screen recording of the interactive 3D viewer (preview.html) -->
+![RGB point cloud](https://your-github-asset-url/rgb_pointcloud.png)
+
+### Output — Semantic labels
+<!-- Screenshot of the semantic coloured cloud (chairs, tables etc highlighted) -->
+![Semantic labels](https://your-github-asset-url/semantic_pointcloud.png)
+
+---
+
 ## Quick start (Google Colab — no local GPU)
 
 1. Make sure this repo is on GitHub (see *Pushing to GitHub* below).
