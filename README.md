@@ -47,8 +47,8 @@ https://your-github-asset-url/input.mov
 
 ## Design choices
 
-**MASt3R over classical SfM** — handles casual phone video without COLMAP, produces a dense coloured cloud directly, and doesn't fail all-or-nothing on textureless scenes.
+**MASt3R over classical SfM** — COLMAP fails silently when features are sparse; MASt3R predicts depth and poses from learned priors so it works on textureless scenes and gives metric scale without calibration.
 
-**Frame prep matters** — dropping blurry frames and capping at 25 views is cheap and keeps the joint GPU step inside a free Colab T4.
+**Filter before reconstruct** — blurry frames produce low-confidence pointmaps that hurt the global alignment, not just add noise. Dropping them first improves quality, not just speed.
 
-**Thin notebook, real modules** — all logic is in `v3d/*.py`, the notebook is just a 6-step driver. Easy to read and reuse.
+**Semantics aligned by construction** — each pixel already has a 3D point from MASt3R, so 2D labels are inherited directly rather than projected back, avoiding pose errors and resampling artifacts. Voxel majority vote then resolves cross-frame disagreements.
