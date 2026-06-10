@@ -18,21 +18,6 @@ upload video → extract frames → blur filter → subsample → MASt3R → vie
 
 ---
 
-## Example result
-
-A ~20 s handheld 180° walk-around of a chair and bench, reconstructed with
-MASt3R from **25 frames → ~500k points**:
-
-![Reconstructed point cloud](examples/output/preview.png)
-
-See [`examples/output/`](examples/output/) for the full result:
-[`point_cloud.ply`](examples/output/point_cloud.ply),
-an interactive [`preview.html`](examples/output/preview.html) (open in any
-browser and rotate), [`report.json`](examples/output/report.json), and the
-[input frames](examples/output/images/) that were used.
-
----
-
 ## Quick start (Google Colab — no local GPU)
 
 1. Make sure this repo is on GitHub (see *Pushing to GitHub* below).
@@ -79,7 +64,6 @@ video-to-3d/
 │   ├── reconstruct.py       # MASt3R → coloured point cloud                (GPU)
 │   ├── semantics.py         # 2D→3D semantic labels (SegFormer)            (GPU)
 │   └── pointcloud.py        # binary-PLY writer + inline 3D viewer        (CPU)
-├── examples/                # sample input + committed example outputs
 ├── requirements.txt
 └── README.md
 ```
