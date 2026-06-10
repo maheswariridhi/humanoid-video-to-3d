@@ -22,7 +22,7 @@ https://github.com/user-attachments/assets/993dda47-cb36-4e2a-ba56-5998d1e649f6
 
 
 ### Semantic labels
-<img width="657" height="237" alt="Screenshot (2022)" src="https://github.com/user-attachments/assets/2b8bc3d9-1cf1-4e74-9c77-5baf0063148c" />
+<img width="562" height="535" alt="Screenshot 2026-06-10 190821" src="https://github.com/user-attachments/assets/7cae98d4-5e30-4573-8cad-59d5fb6b10cb" />
 
 
 ---
