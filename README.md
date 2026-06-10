@@ -57,6 +57,24 @@ motion blur. More parallax = better depth.
 
 ---
 
+## Semantic labels (optional)
+
+Cell 5 of the notebook also assigns a **semantic class to each 3D point**. The
+approach keeps semantics aligned with the geometry *by construction*:
+
+1. Segment every frame in 2D with **SegFormer (ADE20K)**, which covers indoor
+   furniture (chair, sofa, table, bed, cabinet, …).
+2. Each pixel already has a 3D point from MASt3R, so every point **inherits its
+   pixel's label** — no separate alignment step.
+3. **Voxel-majority-vote** across all frames so a point's label is consistent
+   across views, not per-frame flicker.
+
+Output: `point_cloud_semantic.ply` (furniture coloured per class, everything else
+grey) plus a printed per-class point-count legend. Target classes are
+configurable: `semantics.label(rec, target_classes=["chair", "table", ...])`.
+
+---
+
 ## Repository layout
 
 ```
@@ -65,7 +83,7 @@ video-to-3d/
 ├── v3d/                     # the real code, imported by the notebook
 │   ├── frames.py            # extract frames + blur filter + subsample   (CPU)
 │   ├── reconstruct.py       # MASt3R/DUSt3R → coloured point cloud         (GPU)
-│   ├── semantics.py         # 2D→3D semantic labels                       (roadmap)
+│   ├── semantics.py         # 2D→3D semantic labels (SegFormer)            (GPU)
 │   └── pointcloud.py        # binary-PLY writer + inline 3D viewer        (CPU)
 ├── examples/                # sample input + committed example outputs
 ├── requirements.txt
@@ -82,8 +100,8 @@ the logic lives in readable, reusable modules rather than in notebook cells.
 - [x] CPU frame prep: extraction + blur filter + subsampling
 - [x] MASt3R reconstruction on Colab GPU → coloured point cloud (DUSt3R fallback)
 - [x] Inline 3D viewer + PLY export
-- [ ] Optional: semantic labels in 3D — Grounded-SAM-2 masks lifted onto the
-      MASt3R pointmaps (`v3d/semantics.py` sketches the interface)
+- [x] Semantic labels in 3D — SegFormer/ADE20K masks lifted onto the MASt3R
+      pointmaps and voxel-majority-voted for multi-view consistency
 - [ ] Optional: 3D Gaussian Splatting on the recovered poses for a
       photorealistic, explorable result
 
