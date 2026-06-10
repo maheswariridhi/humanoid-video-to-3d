@@ -18,8 +18,8 @@ https://github.com/user-attachments/assets/993dda47-cb36-4e2a-ba56-5998d1e649f6
 
 
 ### RGB reconstruction
-<!-- screenshot of preview.html in browser -->
-![RGB point cloud](https://your-github-asset-url/rgb_pointcloud.png)
+<img width="755" height="796" alt="Screenshot (2018)" src="https://github.com/user-attachments/assets/2b9c4fd4-82ba-47be-ade2-63dd48f5fcd0" />
+
 
 ### Semantic labels
 <!-- screenshot of the semantic-coloured cloud -->
