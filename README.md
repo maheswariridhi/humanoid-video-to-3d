@@ -40,15 +40,10 @@ browser and rotate), [`report.json`](examples/output/report.json), and the
    `https://colab.research.google.com/github/maheswariridhi/video-to-3d/blob/main/reconstruct.ipynb`
 3. **Runtime → Change runtime type → T4 GPU → Save**
 4. **Runtime → Run all**, then upload a short clip when prompted.
-5. View the cloud inline; the last cell downloads a single
-   `video_to_3d_outputs.zip` containing:
-
-   ```
-   point_cloud.ply     # the reconstructed cloud
-   preview.html        # standalone interactive viewer (opens in any browser)
-   report.json         # frames used, point count, output paths
-   images/             # the frames that were actually used
-   ```
+5. The cloud renders inline. Outputs are saved under `out/` —
+   `point_cloud.ply`, `point_cloud_semantic.ply` (if you ran the semantics
+   cell), an interactive `preview.html`, and `report.json` — download any of
+   them from Colab's Files panel when you need them.
 
 **Capture tip:** a slow 10–30 s sweep of a small room or a desk, walking
 *around* objects (not just rotating on the spot), with even lighting and no

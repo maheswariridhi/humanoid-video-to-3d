@@ -12,5 +12,5 @@ examples/output/
 └── images/             # the input frames that were used
 ```
 
-To regenerate: run `reconstruct.ipynb` in Colab, then unzip the downloaded
-`video_to_3d_outputs.zip` into `examples/output/`.
+To regenerate: run `reconstruct.ipynb` in Colab, then download the files from
+`out/` (Files panel) into `examples/output/`.
