@@ -1,9 +1,9 @@
 # humanoid-video-to-3d
 
-Turn a short phone video into a **3D point cloud**, with optional semantic labels.
+Turn a short video into a **3D construction**, with semantic labels.
 
 ```
-video → frames → blur filter → MASt3R → 3D point cloud → semantic labels (optional)
+video → frames → blur filter → MASt3R → 3D point cloud → semantic labels 
 ```
 
 ---
